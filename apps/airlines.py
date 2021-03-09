@@ -17,7 +17,11 @@ flight_data = pd.read_csv(FILE)
 # Create useful lists for dropdown menus
 airlines = sorted(flight_data.airline_name.unique())
 airports = flight_data.airport_origin_code.unique()
+
+# Create a list state with unique values (removing blanks from dataset)
 states = flight_data.airport_origin_state.unique()
+states = [x for x in states if str(x) != 'nan']
+states = sorted(states)
 
 layout = html.Div([
     html.H1('Top 10 Airlines', style={"textAlign": "center"}),

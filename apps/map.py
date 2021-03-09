@@ -7,7 +7,7 @@ import pandas as pd
 import pathlib
 import numpy as np
 from app import app
-from apps import config
+#from assets import config
 
 # Get relative data folder
 PATH = pathlib.Path(__file__).parent
@@ -17,41 +17,29 @@ FILE = DATA_PATH.joinpath('flights.csv')
 # Open dataset containing flight information
 flight_data = pd.read_csv(FILE)
 
-# Create useful lists for dropdown menus
-airlines = sorted(flight_data.airline_name.unique())
-airports = flight_data.airport_origin_code.unique()
-states = flight_data.airport_origin_state.unique()
-
 layout = html.Div([
-    html.H1('Top 10 Airlines', style={"textAlign": "center"}),
-
-    html.Div([
-        html.Div(dcc.Dropdown(
-            id='states-dropdown', value='SP', clearable=False,
-            options=[{'label': x, 'value': x} for x in states]
-        ), className='six columns'),
-    ], className='row'),
-    dcc.Graph(id='my-bar', figure={}),
+    html.H1('Map', style={"textAlign": "center"}),
+    dcc.Graph(id='my-map', figure={}),
 ])
 
 @app.callback(
-    Output(component_id='my-bar', component_property='figure'),
+    Output(component_id='my-map', component_property='figure'),
     [Input(component_id='states-dropdown', component_property='value')]
 )
 
-def display_value():
+def display_value(self):
 
     movements = flight_data.groupby('airport_origin_code').sum('departures')
     movements.reset_index(inplace=True)
         
-    #DATA_PATH = PATH.joinpath("../datasets").resolve()
+    # Get stored path to /datasets folder
     FILE = DATA_PATH.joinpath('airport_list.csv')
     airports = pd.read_csv(FILE)
 
+    # Get airlines and passenger traffic from movements
     airports = pd.merge(airports, movements[['airport_origin_code', 'departures']], left_on = 'airport_icao', right_on = 'airport_origin_code')
 
-
-    mapbox_access_token = config.MAPBOX_API_TOKEN
+    mapbox_access_token = 'pk.eyJ1IjoiZ2F6aWxsbWVyIiwiYSI6ImNrbHdyNTM1azBsejUyc214aTMxbGxtbXEifQ.zHhMMVkUWYvLsOOC2MsmdA'
 
     fig = go.Figure(go.Scattermapbox(
             lat=airports['lat'],
@@ -59,14 +47,14 @@ def display_value():
             mode='markers',
             text = airports['name'],
             marker=go.scattermapbox.Marker(
-                size=airports['departures'] / 500,
+                size=airports['departures'] / 5000,
             ),
             hovertemplate=
             "<b>%{text}</b><br><br>" +
             "<b>Departures:</b> %{marker.size}<br>" +
             "<extra></extra>",
-            
-        ))
+        )    
+    )
 
     fig.update_layout(
         hovermode='closest',
@@ -82,4 +70,6 @@ def display_value():
             zoom=3
         )
     )
+
+    #fig.show()
     return fig

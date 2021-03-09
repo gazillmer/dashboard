@@ -7,15 +7,16 @@ from app import app
 from app import server
 
 # Connect to your app pages
-from apps import airlines, movements, map
+from apps import airlines, movements, map, bump
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div([
-        dcc.Link('Passenger and Aircraft Movements |', href='/apps/movements |'),
-        dcc.Link(' Airlines Ranking |', href='/apps/airlines'),
-        dcc.Link(' Airport Map', href='/apps/map'),
-    ], className="row"),
+        dcc.Link('Passenger and Aircraft Movements |', href='/apps/movements'),
+        dcc.Link(' Airline Traffic |', href='/apps/airlines'),
+        dcc.Link(' Airport Map |', href='/apps/map'),
+        dcc.Link(' Airline Ranking', href='/apps/bump'),
+    ], className='row'),
     html.Div(id='page-content', children=[])
 ])
 
@@ -29,6 +30,8 @@ def display_page(pathname):
         return airlines.layout
     if pathname == '/apps/map':
         return map.layout
+    if pathname == '/apps/bump':
+        return bump.layout
     else:
         return "Something went wrong. For sure, the coder is an idiot."
 

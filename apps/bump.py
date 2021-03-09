@@ -1,14 +1,10 @@
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-from numpy.core.numeric import NaN
 import plotly.express as px
 import pandas as pd
 import pathlib
 from app import app
-
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 
 # Get relative data folder
 PATH = pathlib.Path(__file__).parent
@@ -28,7 +24,8 @@ states = [x for x in states if str(x) != 'nan']
 states = sorted(states)
 
 layout = html.Div([
-    html.H1('Aircraft and Passenger Movement (of selected state)', style={"textAlign": "center"}),
+    html.H1('Airline Ranking', style={"textAlign": "center"}),
+    html.H2('Bump chart needs improvements', style={"textAlign": "center"}),
 
     html.Div([
         html.Div(dcc.Dropdown(
@@ -36,11 +33,11 @@ layout = html.Div([
             options=[{'label': x, 'value': x} for x in states]
         ), className='six columns'),
     ], className='row'),
-    dcc.Graph(id='my-rank', figure={}),
+    dcc.Graph(id='my-bump', figure={}),
 ])
 
 @app.callback(
-    Output(component_id='my-rank', component_property='figure'),
+    Output(component_id='my-bump', component_property='figure'),
     [Input(component_id='states-dropdown', component_property='value')]
 )
 
@@ -51,44 +48,49 @@ def display_value(state_choice):
     flights_state = flights_state.groupby(['airline_name', 'year_month']).sum('departures')
     flights_state.reset_index(inplace=True)
 
-    # Tráfego interno no período analisado
-    internal_traffic = flight_data[flight_data['airport_origin_state'] == state_choice]
-    internal_traffic = internal_traffic[internal_traffic.loc[:]['airport_destination_country'] == 'BRASIL']
-    internal_traffic['total_passengers'] = internal_traffic['passengers_paid'] + internal_traffic['passengers_free']
+    voos_por_aerea = flight_data[flight_data['airport_origin_state'] == state_choice]
+    voos_por_aerea = voos_por_aerea.groupby(['airline_name', 'year_month']).sum('departures')[['departures']]
+    voos_por_aerea = voos_por_aerea.unstack(level = -1)
+    voos_por_aerea = voos_por_aerea.fillna(0)
+    voos_por_aerea.columns = voos_por_aerea.columns.droplevel(level = 0)
 
-    internal_traffic_month = internal_traffic.groupby('year_month').sum('departures')
-    internal_traffic_month.reset_index(inplace=True)
-    internal_traffic_month['load_factor'] = internal_traffic_month['total_passengers'] / internal_traffic_month['seats']
+    max_month = pd.DataFrame()
 
-    # Create plot with information about passenger number and departures, summarized by month
-    fig = make_subplots(specs = [[{'secondary_y' : True}]])
+    for column in voos_por_aerea:
+        max_month[column] = voos_por_aerea[column].nlargest(10).index.to_list()
 
-    #Add traces
-    fig.add_trace(
-        go.Line(
-            x = internal_traffic_month['year_month'],
-            y = internal_traffic_month['total_passengers'],
-            name = 'Passengers'),
-        secondary_y = False
-        )
+    month = pd.DataFrame(max_month.stack())
+    month.reset_index(inplace=True) 
 
-    fig.add_trace(
-        go.Line(
-            x = internal_traffic_month['year_month'],
-            y = internal_traffic_month['departures'],
-            name = 'Departures'),
-        secondary_y = True
-        )
-    """
+    month.rename(columns = {'level_0': 'Position', 'level_1':'Month', 0: 'Airline'}, inplace=True)
+
+    month = month.sort_values('Month',ascending = True)
+    month['Position'] = month['Position'] + 1
+
+    # Create plot with flight information, summarized by year and month
+    fig = px.line(
+        month,
+        x = 'Month',
+        y = 'Position',
+        color = 'Airline',
+    )
+
     fig.update_layout(
         title={
-            'text': "Aircraft and Passenger Movement on internal flights",
-            'y':0.9,
+            'text': "Top 10 airlines (considering departures from the selected state)",
+            'y':0.95,
             'x':0.5,
             'xanchor': 'center',
-            'yanchor': 'top'}
+            'yanchor': 'top'},
+        yaxis = dict(
+            tickmode = 'array',
+            tickvals = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        )
     )
-    """
+
+    fig.update_traces(mode="markers+lines")
+    fig.update_yaxes(autorange="reversed")
+
     fig.update_xaxes(
         title_text="Month",
         rangeslider_visible=True,
@@ -102,10 +104,6 @@ def display_value(state_choice):
             ])
         )
     )
-
-    # Set y-axes titles
-    fig.update_yaxes(title_text="Total <b>Passengers</b> | Blue", secondary_y=False)
-    fig.update_yaxes(title_text="Total <b>Departures</b> | Red", secondary_y=True)
 
     return fig
 
