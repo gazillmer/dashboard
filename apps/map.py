@@ -7,7 +7,7 @@ import pandas as pd
 import pathlib
 import numpy as np
 from app import app
-from apps import keys
+from apps import config
 
 # Get relative data folder
 PATH = pathlib.Path(__file__).parent
@@ -51,7 +51,7 @@ def display_value():
     airports = pd.merge(airports, movements[['airport_origin_code', 'departures']], left_on = 'airport_icao', right_on = 'airport_origin_code')
 
 
-    mapbox_access_token = keys.MAPBOX_API_TOKEN
+    mapbox_access_token = config.MAPBOX_API_TOKEN
 
     fig = go.Figure(go.Scattermapbox(
             lat=airports['lat'],
