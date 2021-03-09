@@ -4,7 +4,7 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
 import pathlib
-#from app import app
+from app import app
 
 # Get relative data folder
 PATH = pathlib.Path(__file__).parent
@@ -24,29 +24,46 @@ layout = html.Div([
 
     html.Div([
         html.Div(dcc.Dropdown(
-            id='genre-dropdown', value='SP', clearable=False,
+            id='states-dropdown', value='SP', clearable=False,
             options=[{'label': x, 'value': x} for x in states]
         ), className='six columns'),
-
-        html.Div(dcc.Dropdown(
-            id='sales-dropdown', value='EU Sales', clearable=False,
-            persistence=True, persistence_type='memory',
-            options=[{'label': x, 'value': x} for x in sales_list]
-        ), className='six columns'),
     ], className='row'),
-
     dcc.Graph(id='my-bar', figure={}),
 ])
 
-
 @app.callback(
     Output(component_id='my-bar', component_property='figure'),
-    [Input(component_id='genre-dropdown', component_property='value'),
-     Input(component_id='sales-dropdown', component_property='value')]
+    [Input(component_id='states-dropdown', component_property='value')]
 )
-def display_value(genre_chosen, sales_chosen):
-    dfv_fltrd = dfv[dfv['Genre'] == genre_chosen]
-    dfv_fltrd = dfv_fltrd.nlargest(10, sales_chosen)
-    fig = px.bar(dfv_fltrd, x='Video Game', y=sales_chosen, color='Platform')
-    fig = fig.update_yaxes(tickprefix="$", ticksuffix="M")
+
+def display_value(state_choice):
+
+    # Filter flights with origin on selected state
+    flights_state = flight_data[flight_data['airport_origin_state'] == state_choice]
+    flights_state = flights_state.groupby(['airline_name', 'year_month']).sum('departures')
+    flights_state.reset_index(inplace=True)
+
+    # Filter Top 10 airlines with depatures on selected state
+    airlines_state = flights_state.groupby('airline_name').sum('departures').nlargest(10, 'departures')
+    airlines_state.reset_index(inplace=True)
+    airlines_state = airlines_state['airline_name']
+    
+    # Filter dataset to show only the flights from the Top 10 airlines
+    top_10_airlines = flights_state[flights_state['airline_name'].isin(airlines_state)]
+
+    # Create plot with flight information, summarized by year and month
+    fig = px.line(
+        top_10_airlines,
+        x = 'year_month',
+        y = 'departures',
+        color = 'airline_name',
+        hover_name = 'airline_name',
+        #log_y = True,
+        labels = {
+            'departures' : "Departures", 
+            'year_month' : 'Month',
+            'airline_name' : 'Airline'}
+    )
+
     return fig
+
