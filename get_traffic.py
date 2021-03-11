@@ -4,6 +4,7 @@ import datetime
 import time
 import pathlib
 
+from colorama import Fore, Back, Style
 from selenium import webdriver
 
 website_list = [
@@ -52,10 +53,10 @@ for i in range(len(website_list)):
         driver.close()
         data = np.array(data)[:,1]
         website_traffic[website_names[i]] = data
-        print(f'Traffic from {website_names[i]} extracted successfully!')
-        time.sleep(10)
+        print(Fore.GREEN + f'Traffic from {website_names[i]} extracted successfully!')
+        time.sleep(15)
     except:
-        print(f'Error extracting traffic from {website_names[i]} :(')
+        print(Fore.RED + f'Error extracting traffic from {website_names[i]} :(')
 
 PATH = pathlib.Path(__file__).parent.absolute()
 DESTINATION_PATH = PATH.joinpath("./datasets")
