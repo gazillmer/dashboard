@@ -1,5 +1,6 @@
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
 import plotly.graph_objects as go
@@ -7,6 +8,9 @@ import pandas as pd
 import pathlib
 import numpy as np
 from app import app
+import dash
+
+app = dash.Dash(__name__)
 #from assets import config
 
 # Get relative data folder
@@ -17,17 +21,8 @@ FILE = DATA_PATH.joinpath('flights.csv')
 # Open dataset containing flight information
 flight_data = pd.read_csv(FILE)
 
-layout = html.Div([
-    html.H1('Map', style={"textAlign": "center"}),
-    dcc.Graph(id='my-map', figure={}),
-])
-
-@app.callback(
-    Output(component_id='my-map', component_property='figure'),
-    [Input(component_id='states-dropdown', component_property='value')]
-)
-
-def display_value(self):
+# Function to create a map plot
+def map_plot():
 
     movements = flight_data.groupby('airport_origin_code').sum('departures')
     movements.reset_index(inplace=True)
@@ -68,8 +63,14 @@ def display_value(self):
             ),
             pitch=0,
             zoom=3
-        )
+        ),
+        height = 600
     )
-
-    #fig.show()
     return fig
+
+map_airports = map_plot()
+
+layout = html.Div([
+    html.H1('Map', style={"textAlign": "center"}),
+    dcc.Graph(id='my-map', figure=map_airports),
+])

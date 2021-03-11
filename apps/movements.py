@@ -1,11 +1,15 @@
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from numpy.core.numeric import NaN
 import plotly.express as px
 import pandas as pd
 import pathlib
+import dash
 from app import app
+
+app = dash.Dash(__name__)
 
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -28,9 +32,10 @@ states = [x for x in states if str(x) != 'nan']
 states = sorted(states)
 
 layout = html.Div([
-    html.H1('Aircraft and Passenger Movement (of selected state)', style={"textAlign": "center"}),
+    html.H1('Aircraft and Passenger Movement', style={"textAlign": "center"}),
 
     html.Div([
+        html.P('Select state: '),
         html.Div(dcc.Dropdown(
             id='states-dropdown', value='SP', clearable=False,
             options=[{'label': x, 'value': x} for x in states]
@@ -79,16 +84,7 @@ def display_value(state_choice):
             name = 'Departures'),
         secondary_y = True
         )
-    """
-    fig.update_layout(
-        title={
-            'text': "Aircraft and Passenger Movement on internal flights",
-            'y':0.9,
-            'x':0.5,
-            'xanchor': 'center',
-            'yanchor': 'top'}
-    )
-    """
+
     fig.update_xaxes(
         title_text="Month",
         rangeslider_visible=True,
@@ -101,6 +97,9 @@ def display_value(state_choice):
                 dict(step="all")
             ])
         )
+    )
+    fig.update_layout(
+        height = 600
     )
 
     # Set y-axes titles

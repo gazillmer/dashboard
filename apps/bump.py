@@ -1,10 +1,14 @@
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
 import pathlib
+import dash
 from app import app
+
+app = dash.Dash(__name__)
 
 # Get relative data folder
 PATH = pathlib.Path(__file__).parent
@@ -25,7 +29,7 @@ states = sorted(states)
 
 layout = html.Div([
     html.H1('Airline Ranking', style={"textAlign": "center"}),
-    html.H2('Bump chart needs improvements', style={"textAlign": "center"}),
+    html.H5('Bump chart needs improvements', style={"textAlign": "center"}),
 
     html.Div([
         html.Div(dcc.Dropdown(
@@ -85,7 +89,8 @@ def display_value(state_choice):
         yaxis = dict(
             tickmode = 'array',
             tickvals = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        )
+        ),
+        height = 600
     )
 
     fig.update_traces(mode="markers+lines")
