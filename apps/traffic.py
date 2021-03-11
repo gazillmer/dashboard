@@ -11,7 +11,7 @@ import dash
 from dash.dependencies import Input, Output
 from app import app
 
-app = dash.Dash(__name__)
+#app = dash.Dash(__name__)
 
 # Get relative data folder
 PATH = pathlib.Path(__file__).parent
@@ -44,7 +44,7 @@ website_names = website_traffic.columns[1:]
 chart = display_value()
 layout = html.Div([
     html.H1('Website Traffic', style={"textAlign": "center"}),
-    html.H6('Information provided by https://www.similarweb.com/. The website provides traffic data for any page for the last 6 months without needing any paid subscription.', style={"textAlign": "center"}),
     dcc.Graph(id='my-traffic', figure=chart),
-    
+    html.H6('Information provided by https://www.similarweb.com/. The website provides traffic data for any page during the last 6 months with no paid subscription required.'),
+    html.H6('Since the data must be scraped from an interactive chart, SimilarWeb notices that a bot is scraping its website and cuts the connection, making it difficult to get data from multiple websites.'),
 ])

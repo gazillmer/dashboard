@@ -73,4 +73,6 @@ map_airports = map_plot()
 layout = html.Div([
     html.H1('Map', style={"textAlign": "center"}),
     dcc.Graph(id='my-map', figure=map_airports),
+    html.H5('Departures by airport', style={"textAlign": "center"}),
+
 ])

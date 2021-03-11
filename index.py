@@ -14,7 +14,7 @@ from app import server
 from apps import airlines, movements, map, bump, traffic
 
 # Define bootstrap theme as Cosmo
-app = dash.Dash(__name__)
+#app = dash.Dash(__name__)
 
 # styling the sidebar
 SIDEBAR_STYLE = {
@@ -76,6 +76,10 @@ def display_page(pathname):
                 html.Div([
                     html.Hr(),
                     html.P('One of the main challenges of an airport administrator is managing the number of flights required to transport a certain number of passengers, especially during the Covid-19 pandemic, where air traffic was dramatically reduced. This work aims to create a social network and web traffic sensing model to predict peoples willingness to travel in the months to come, providing support for decision-making managers of airports. The model will rely on data provided by ANAC (Brazilian National Civil Aviation Agency), as well as information collected from travel-related search engines and social-network sensing.'),
+                    html.P('This project is part of Gabriel\'s undergraduate thesis for his bachelor\'s degree in Computer Engineering at UFRGS.'),
+                    html.P('Student: Gabriel Alexandre Zillmer'),
+                    html.P('Advisor: João Luiz Dihl Comba')
+                    
                 ])
         ]
     elif pathname == '/apps/map':

@@ -9,8 +9,6 @@ import pathlib
 import dash
 from app import app
 
-app = dash.Dash(__name__)
-
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 

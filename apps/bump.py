@@ -8,8 +8,6 @@ import pathlib
 import dash
 from app import app
 
-app = dash.Dash(__name__)
-
 # Get relative data folder
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../datasets").resolve()

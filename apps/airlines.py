@@ -1,14 +1,10 @@
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
 import pathlib
-import dash
 from app import app
-
-app = dash.Dash(__name__)
 
 # Get relative data folder
 PATH = pathlib.Path(__file__).parent
@@ -32,16 +28,16 @@ layout = html.Div([
 
     html.Div([
         html.Div(dcc.Dropdown(
-            id='states-dropdown', value='SP', clearable=False,
+            id='states-dropdown', value='SP', clearable=False, 
             options=[{'label': x, 'value': x} for x in states]
-        ), className='six columns'),
+        ), className='dropdown'),
     ], className='row'),
     dcc.Graph(id='my-bar', figure={}),
 ])
 
 @app.callback(
     Output(component_id='my-bar', component_property='figure'),
-    [Input(component_id='states-dropdown', component_property='value')]
+    Input(component_id='states-dropdown', component_property='value')
 )
 
 def display_value(state_choice):
