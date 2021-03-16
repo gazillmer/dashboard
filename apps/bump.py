@@ -30,6 +30,7 @@ layout = html.Div([
     html.H5('Bump chart needs improvements', style={"textAlign": "center"}),
 
     html.Div([
+        html.P('Select state: '),
         html.Div(dcc.Dropdown(
             id='states-dropdown', value='SP', clearable=False,
             options=[{'label': x, 'value': x} for x in states]
@@ -79,7 +80,6 @@ def display_value(state_choice):
 
     fig.update_layout(
         title={
-            'text': "Top 10 airlines (considering departures from the selected state)",
             'y':0.95,
             'x':0.5,
             'xanchor': 'center',

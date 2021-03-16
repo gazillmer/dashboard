@@ -24,9 +24,10 @@ states = [x for x in states if str(x) != 'nan']
 states = sorted(states)
 
 layout = html.Div([
-    html.H1('Top 10 Airlines'),
+    html.H1('Top 10 Airlines', style={"textAlign": "center"}),
 
     html.Div([
+        html.P('Select state: '),
         html.Div(dcc.Dropdown(
             id='states-dropdown', value='SP', clearable=False, 
             options=[{'label': x, 'value': x} for x in states]

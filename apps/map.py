@@ -9,6 +9,7 @@ import pathlib
 import numpy as np
 from app import app
 import dash
+import update
 
 app = dash.Dash(__name__)
 #from assets import config
@@ -36,18 +37,16 @@ def map_plot():
 
     mapbox_access_token = 'pk.eyJ1IjoiZ2F6aWxsbWVyIiwiYSI6ImNrbHdyNTM1azBsejUyc214aTMxbGxtbXEifQ.zHhMMVkUWYvLsOOC2MsmdA'
 
+    airports['text'] = airports['name'] + '<br>Departures ' + (airports['departures']).astype(str)
+
     fig = go.Figure(go.Scattermapbox(
             lat=airports['lat'],
             lon=airports['lon'],
             mode='markers',
-            text = airports['name'],
+            text = airports['text'],
             marker=go.scattermapbox.Marker(
-                size=airports['departures'] / 5000,
-            ),
-            hovertemplate=
-            "<b>%{text}</b><br><br>" +
-            "<b>Departures:</b> %{marker.size}<br>" +
-            "<extra></extra>",
+                size=airports['departures'] / 3000,
+            )
         )    
     )
 
@@ -70,9 +69,12 @@ def map_plot():
 
 map_airports = map_plot()
 
+last_update_anac = update.latest_update()
+
 layout = html.Div([
     html.H1('Map', style={"textAlign": "center"}),
+    html.H5('Departures by airport from 2016 to 2021', style={"textAlign": "center"}),
     dcc.Graph(id='my-map', figure=map_airports),
-    html.H5('Departures by airport', style={"textAlign": "center"}),
+    html.H5(f'Latest update: {last_update_anac}', style={"textAlign": "center"}),
 
 ])

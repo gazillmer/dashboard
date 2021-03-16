@@ -3,8 +3,10 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
+import requests
 
 from dash.dependencies import Input, Output
+from bs4 import BeautifulSoup as BS
 
 # Connect to main app.py file
 from app import app
@@ -12,6 +14,7 @@ from app import server
 
 # Connect to your app pages
 from apps import airlines, movements, map, bump, traffic
+import update
 
 # Define bootstrap theme as Cosmo
 #app = dash.Dash(__name__)
