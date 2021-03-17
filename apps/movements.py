@@ -22,7 +22,11 @@ flight_data = pd.read_csv(FILE)
 
 # Create useful lists for dropdown menus
 airlines = sorted(flight_data.airline_name.unique())
+
+# Create a list with all airports, removing duplicates
 airports = flight_data.airport_origin_code.unique()
+airports = [x for x in airports if str(x) != 'nan']
+airports = sorted(airports)
 
 # Create a list state with unique values (removing blanks from dataset)
 states = flight_data.airport_origin_state.unique()
@@ -33,29 +37,29 @@ layout = html.Div([
     html.H1('Aircraft and Passenger Movement', style={"textAlign": "center"}),
 
     html.Div([
-        html.P('Select state: '),
+        html.P('Select airport: '),
         html.Div(dcc.Dropdown(
-            id='states-dropdown', value='SP', clearable=False,
-            options=[{'label': x, 'value': x} for x in states]
-        ), className='six columns'),
+            id='airports-dropdown', value='SBGR', clearable=False,
+            options=[{'label': x, 'value': x} for x in airports]
+        ), className='six columns', style={"width": "7%"}),
     ], className='row'),
-    dcc.Graph(id='my-rank', figure={}),
+    dcc.Graph(id='my-move', figure={}),
 ])
 
 @app.callback(
-    Output(component_id='my-rank', component_property='figure'),
-    [Input(component_id='states-dropdown', component_property='value')]
+    Output(component_id='my-move', component_property='figure'),
+    [Input(component_id='airports-dropdown', component_property='value')]
 )
 
-def display_value(state_choice):
-
+def display_value(airport_of_choice):
+    '''
     # Filter flights with origin on selected state
-    flights_state = flight_data[flight_data['airport_origin_state'] == state_choice]
-    flights_state = flights_state.groupby(['airline_name', 'year_month']).sum('departures')
-    flights_state.reset_index(inplace=True)
-
+    flights_airport = flight_data[flight_data['airport_origin_code'] == airport_of_choice]
+    flights_airport = flights_airport.groupby(['airline_name', 'year_month']).sum('departures')
+    flights_airport.reset_index(inplace=True)
+    '''
     # Tráfego interno no período analisado
-    internal_traffic = flight_data[flight_data['airport_origin_state'] == state_choice]
+    internal_traffic = flight_data[flight_data['airport_origin_code'] == airport_of_choice]
     internal_traffic = internal_traffic[internal_traffic.loc[:]['airport_destination_country'] == 'BRASIL']
     internal_traffic['total_passengers'] = internal_traffic['passengers_paid'] + internal_traffic['passengers_free']
 
