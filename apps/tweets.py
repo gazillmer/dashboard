@@ -137,6 +137,7 @@ tweets_per_airport.reset_index(inplace=True)
 
 tweets_per_airport = pd.merge(tweets_per_dest, airports[['airport_iata', 'lat', 'lon', 'name']])
 tweets_per_airport.sort_values('tweets', ascending=False, inplace=True)
+
 tweets_per_dest = tweets_per_dest.sort_values('tweets', ascending=False).nlargest(20, 'tweets')
 
 def plot_tweets_map():
