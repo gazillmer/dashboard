@@ -23,6 +23,7 @@ PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../datasets").resolve()
 DESTINATIONS_LIST = DATA_PATH.joinpath('destinations_list.csv')
 AIRPORTS_LIST = DATA_PATH.joinpath('airport_list.csv')
+FILE_TWEETS = DATA_PATH.joinpath('tweets.csv')
 
 # Get keys for authentication
 apiKey = 'R3yUgmFxfpN7WM1tau2OX4ugi'
@@ -120,12 +121,12 @@ for index in tweets.index:
 tweets.drop_duplicates(subset='text', inplace=True)
 '''
 
-tweets = pd.read_csv('C:/Users/Zillmer/Google Drive/TCC/dashboard-heroku/datasets/tweets.csv', encoding = CHARSET)
-
+#tweets = pd.read_csv('C:/Users/Zillmer/Google Drive/TCC/dashboard-heroku/datasets/tweets.csv', encoding = CHARSET)
+tweets = pd.read_csv(FILE_TWEETS, encoding = CHARSET)
 tweets_per_dest = tweets.groupby('destination').count()
 tweets_per_dest = tweets_per_dest.reset_index()[['destination', 'id']]
 
-airports = pd.read_csv('C:/Users/Zillmer/Google Drive/TCC/dashboard-heroku/datasets/airport_list.csv', encoding = CHARSET)
+airports = pd.read_csv(AIRPORTS_LIST, encoding = CHARSET)
 
 tweets_per_dest = pd.merge(destinations, tweets_per_dest)
 tweets_per_dest.rename(columns={'id' : 'tweets'}, inplace=True)
