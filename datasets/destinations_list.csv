@@ -1,0 +1,228 @@
+continent,country,destination,airport_iata
+south america,uruguai,uruguai,MVD
+south america,uruguai,montevideu,MVD
+south america,argentina,argentina,EZE
+south america,argentina,buenos aires,EZE
+south america,argentina,ushuaia,USH
+south america,argentina,bariloche,BRC
+south america,chile,chile,SCL
+south america,chile,santiago,SCL
+south america,bolivia,bolivia,LPB
+south america,bolivia,la paz,LPB
+south america,peru,peru,LIM
+south america,peru,lima,LIM
+south america,peru,macchu picchu,LIM
+south america,equador,equador,UIO
+south america,equador,quito,UIO
+south america,colombia,colombia,BOG
+south america,colombia,cali,BOG
+south america,colombia,medellin,BOG
+south america,colombia,medelin,BOG
+south america,colombia,bogota,BOG
+central america,dominican republic,punta cana,PUJ
+central america,cuba,cuba,HAV
+central america,cuba,havana,HAV
+central america,panama,panama,PTY
+central america,aruba,aruba,AUA
+north america,mexico,cancun,CUN
+north america,mexico,cidade do mexico,MEX
+north america,usa,florida,MIA
+north america,usa,miami,MIA
+north america,usa,orlando,MCO
+north america,usa,disney,MCO
+north america,usa,nova york,JFK
+north america,usa,nova iorque,JFK
+north america,usa,new york,JFK
+north america,usa,washington,DUL
+north america,usa,filadelfia,DUL
+north america,usa,boston,BOS
+north america,usa,chicago,ORD
+north america,usa,los angeles,LAX
+north america,usa,san diego,SAN
+north america,usa,las vegas,LAS
+north america,usa,san francisco,SFO
+north america,usa,seattle,SEA
+north america,usa,aspen,DEN
+north america,canada,canada,YYZ
+north america,canada,toronto,YYZ
+north america,canada,montreal,YUL
+north america,canada,vancouver,YYC
+europe,portugal,portugal,LIS
+europe,portugal,lisboa,LIS
+europe,portugal,porto,OPO
+europe,spain,espanha,MAD
+europe,spain,madri,MAD
+europe,spain,madrid,MAD
+europe,spain,ibiza,MAD
+europe,spain,barcelona,BCN
+europe,france,frança,CDG
+europe,france,paris,CDG
+europe,italy,italia,FCO
+europe,italy,roma,FCO
+europe,italy,milao,MXP
+europe,italy,veneza,VCE
+europe,netherlands,holanda,AMS
+europe,netherlands,amsterdam,AMS
+europe,uk,inglaterra,LHR
+europe,uk,londres,LHR
+europe,uk,edimburgo,LHR
+europe,uk,liverpool,LHR
+europe,ireland,irlanda,DUB
+europe,ireland,dublin,DUB
+europe,germany,alemanha,FRA
+europe,germany,berlim,BER
+europe,germany,frankfurt,FRA
+europe,germany,munique,MUC
+europe,switzerland,suiça,ZRH
+europe,switzerland,zurique,ZRH
+europe,czech republic,republica checa,PRG
+europe,czech republic,praga,PRG
+europe,hungary,hungria,BUD
+europe,hungary,budapeste,BUD
+europe,austria,austria,VIE
+europe,austria,viena,VIE
+europe,poland,polonia,WAW
+europe,poland,varsóvia,WAW
+europe,russia,russia,SVO
+europe,russia,moscou,SVO
+europe,finland,finlandia,HEL
+europe,finland,helsinki,HEL
+europe,norway,noruega,OSL
+europe,norway,oslo,OSL
+europe,sweden,suécia,ARN
+europe,sweden,estocolmo,ARN
+europe,sweden,malmo,ARN
+europe,denmark,dinamarca,CPH
+europe,denmark,copenhague,CPH
+europe,denmark,copenhagen,CPH
+europe,ukraine,ucrania,KPB
+europe,ukraine,kiev,KPB
+europe,romenia,romenia,OTP
+europe,romenia,bucareste,OTP
+europe,greece,grecia,ATH
+europe,greece,atenas,ATH
+europe,greece,mykonos,ATH
+europe,greece,santorini,ATH
+asia,israel,israel,TLV
+asia,israel,tel aviv,TLV
+asia,israel,jerusalem,TLV
+asia,turkey,turquia,IST
+asia,turkey,istambul,IST
+asia,UAE,dubai,DXB
+asia,UAE,abu dhabi,DXB
+asia,qatar,qatar,DOH
+asia,qatar,catar,DOH
+asia,qatar,doha,DOH
+asia,india,india,DEL
+asia,india,delhi,DEL
+asia,thailand,tailandia,BKK
+asia,thailand,bangkok,BKK
+asia,thailand,bancoque,BKK
+asia,thailand,maya bay,BKK
+asia,thailand,koh phi phi,BKK
+asia,malaysia,malasia,KUL
+asia,malaysia,kuala lumpur,KUL
+asia,singapore,cingapura,SIN
+asia,singapore,singapura,SIN
+asia,maldives,maldivas,MLE
+asia,indonesia,indonesia,CGK
+asia,indonesia,jacarta,CGK
+asia,china,china,PEK
+asia,china,pequim,PEK
+asia,china,shanghai,PVG
+asia,china,xangai,PVG
+asia,china,hong kong,HKG
+asia,japan,japao,NRT
+asia,japan,toquio,NRT
+asia,japan,tokyo,NRT
+asia,south korea,coreia do sul,ICN
+asia,south korea,seul,ICN
+oceania,australia,australia,SYD
+oceania,australia,sidney,SYD
+oceania,australia,sydney,SYD
+oceania,new zealand,nova zelandia,AKL
+oceania,new zealand,auckland,AKL
+south america,brazil,noronha,FEN
+south america,brazil,recife,REC
+south america,brazil,porto de galinhas,REC
+south america,brazil,ipojuca,REC
+south america,brazil,macaraipe,REC
+south america,brazil,carneiros,REC
+south america,brazil,boa viagem,REC
+south america,brazil,tamandare,REC
+south america,brazil,olinda,REC
+south america,brazil,itamaraca,REC
+south america,brazil,paraiba,JPA
+south america,brazil,joao pessoa,JPA
+south america,brazil,pitimbu,JPA
+south america,brazil,miriri,JPA
+south america,brazil,camaratuba,JPA
+south america,brazil,natal,NAT
+south america,brazil,rio grande do norte,NAT
+south america,brazil,rn,NAT
+south america,brazil,pipa,NAT
+south america,brazil,barreta,NAT
+south america,brazil,pirangi,NAT
+south america,brazil,ponta negra,NAT
+south america,brazil,cabo de sao roque,NAT
+south america,brazil,carauba,NAT
+south america,brazil,gostoso,NAT
+south america,brazil,tibau,NAT
+south america,brazil,fortaleza,FOR
+south america,brazil,ceara,FOR
+south america,brazil,canoa quebrada,FOR
+south america,brazil,jeri,FOR
+south america,brazil,jericoacoara,FOR
+south america,brazil,beach park,FOR
+south america,brazil,sao luis,SLZ
+south america,brazil,maranhao,SLZ
+south america,brazil,lencois maranhenses,SLZ
+south america,brazil,rio ,GIG
+south america,brazil,rio de janeiro,GIG
+south america,brazil,rj,GIG
+south america,brazil,errejota,GIG
+south america,brazil,buzios,GIG
+south america,brazil,arraial do cabo,GIG
+south america,brazil,angra,GIG
+south america,brazil,paraty,GIG
+south america,brazil,belo horizonte,CNF
+south america,brazil,minas ,CNF
+south america,brazil,minas gerais,CNF
+south america,brazil,bh,CNF
+south america,brazil,florianopolis,FLN
+south america,brazil,floripa,FLN
+south america,brazil,santa catarina,FLN
+south america,brazil,sc,FLN
+south america,brazil,beto carrero,FLN
+south america,brazil,paraná,CWB
+south america,brazil,curitiba,CWB
+south america,brazil,iguaçu,IGR
+south america,brazil,porto alegre,POA
+south america,brazil,rs,POA
+south america,brazil,poa,POA
+south america,brazil,gramado,POA
+south america,brazil,canela,POA
+south america,brazil,sergipe,AJU
+south america,brazil,alagoas,MCZ
+south america,brazil,maceio,MCZ
+south america,brazil,sao miguel,MCZ
+south america,brazil,frances,MCZ
+south america,brazil,paripueira,MCZ
+south america,brazil,sonho verde,MCZ
+south america,brazil,camaragibe,MCZ
+south america,brazil,milagres,MCZ
+south america,brazil,maragogi,MCZ
+south america,brazil,porto seguro,BPS
+south america,brazil,trancoso,BPS
+south america,brazil,arraial d'ajuda,BPS
+south america,brazil,corumbau,BPS
+south america,brazil,caraiva,BPS
+south america,brazil,sauipe,BPS
+south america,brazil,salvador,SSA
+south america,brazil,boipeba,SSA
+south america,brazil,encanto,SSA
+south america,brazil,ilheus,SSA
+south america,brazil,itacare,SSA
+south america,brazil,pantanal,CGR
+south america,brazil,manaus,MAO
+south america,brazil,amazonas,MAO

@@ -13,7 +13,7 @@ from app import app
 from app import server
 
 # Connect to your app pages
-from apps import airlines, movements, map, bump, traffic
+from apps import airlines, movements, map, bump, traffic, tweets
 import update
 
 # Define bootstrap theme as Cosmo
@@ -51,6 +51,7 @@ sidebar = html.Div(
                 dbc.NavLink("Aircraft Movements", href="/apps/movements", active="exact"),
                 dbc.NavLink("Airline Departures", href='/apps/airlines', active="exact"),
                 dbc.NavLink("Travel Websites Traffic", href='/apps/traffic', active="exact"),
+                dbc.NavLink("Tweets", href='/apps/tweets', active="exact"),
                 dbc.NavLink("Airline Ranking", href='/apps/bump', active="exact")
             ],
             vertical=True,
@@ -95,6 +96,8 @@ def display_page(pathname):
         return bump.layout 
     elif pathname == '/apps/traffic':
         return traffic.layout
+    elif pathname == '/apps/tweets':
+        return tweets.layout
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [

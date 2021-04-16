@@ -15,16 +15,24 @@ from plotly.subplots import make_subplots
 # Get relative data folder
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../datasets").resolve()
-FILE = DATA_PATH.joinpath('flights.csv')
+FILE_FLIGHTS = DATA_PATH.joinpath('flights.csv')
+FILE_AIRPORTS = DATA_PATH.joinpath('airport_list.csv')
+
 
 # Open dataset containing flight information
-flight_data = pd.read_csv(FILE)
+flight_data = pd.read_csv(FILE_FLIGHTS)
+airport_list = pd.read_csv(FILE_AIRPORTS)
+
+flight_data = pd.merge(flight_data, airport_list[['airport_icao', 'airport_iata', 'name']], left_on='airport_origin_code', right_on='airport_icao')
+flight_data['airport_origin_name'] = flight_data['airport_iata'] + ' - ' + flight_data['name']
+flight_data.drop(columns=['airport_icao', 'airport_iata', 'name'], inplace=True)
 
 # Create useful lists for dropdown menus
 airlines = sorted(flight_data.airline_name.unique())
 
 # Create a list with all airports, removing duplicates
-airports = flight_data.airport_origin_code.unique()
+
+airports = flight_data['airport_origin_name'].unique()
 airports = [x for x in airports if str(x) != 'nan']
 airports = sorted(airports)
 
@@ -37,11 +45,10 @@ layout = html.Div([
     html.H1('Aircraft and Passenger Movement', style={"textAlign": "center"}),
 
     html.Div([
-        html.P('Select airport: '),
         html.Div(dcc.Dropdown(
-            id='airports-dropdown', value='SBGR', clearable=False,
+            id='airports-dropdown', value='POA - Salgado Filho International Airport', clearable=False,
             options=[{'label': x, 'value': x} for x in airports]
-        ), className='six columns', style={"width": "7%"}),
+        ), className='six columns', style={"width": "40%"}),
     ], className='row'),
     dcc.Graph(id='my-move', figure={}),
 ])
@@ -52,15 +59,10 @@ layout = html.Div([
 )
 
 def display_value(airport_of_choice):
-    '''
-    # Filter flights with origin on selected state
-    flights_airport = flight_data[flight_data['airport_origin_code'] == airport_of_choice]
-    flights_airport = flights_airport.groupby(['airline_name', 'year_month']).sum('departures')
-    flights_airport.reset_index(inplace=True)
-    '''
+
     # Tráfego interno no período analisado
-    internal_traffic = flight_data[flight_data['airport_origin_code'] == airport_of_choice]
-    internal_traffic = internal_traffic[internal_traffic.loc[:]['airport_destination_country'] == 'BRASIL']
+    internal_traffic = flight_data[flight_data['airport_origin_name'] == airport_of_choice]
+    internal_traffic = internal_traffic[internal_traffic['airport_destination_country'] == 'BRASIL']
     internal_traffic['total_passengers'] = internal_traffic['passengers_paid'] + internal_traffic['passengers_free']
 
     internal_traffic_month = internal_traffic.groupby('year_month').sum('departures')
