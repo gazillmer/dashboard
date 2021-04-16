@@ -6,6 +6,7 @@ import re
 import unicodedata
 import preprocessor as p
 import plotly.graph_objects as go
+import plotly.express as px
 import pathlib
 
 import dash_core_components as dcc
@@ -128,14 +129,15 @@ airports = pd.read_csv('C:/Users/Zillmer/Google Drive/TCC/dashboard-heroku/datas
 
 tweets_per_dest = pd.merge(destinations, tweets_per_dest)
 tweets_per_dest.rename(columns={'id' : 'tweets'}, inplace=True)
-tweets_per_dest.drop(columns=['continent', 'country', 'destination'], inplace=True)
-tweets_per_dest = tweets_per_dest.groupby('airport_iata').sum('tweets')
-tweets_per_dest.reset_index(inplace=True)
+tweets_per_dest = tweets_per_dest.sort_values('tweets', ascending=False).nlargest(20, 'tweets')
+#tweets_per_airport.drop(columns=['continent', 'country', 'destination'], inplace=True)
+tweets_per_airport = tweets_per_dest.groupby('airport_iata').sum('tweets')
+tweets_per_airport.reset_index(inplace=True)
 
 tweets_per_airport = pd.merge(tweets_per_dest, airports[['airport_iata', 'lat', 'lon', 'name']])
 tweets_per_airport.sort_values('tweets', ascending=False, inplace=True)
 
-def plot_tweets():
+def plot_tweets_map():
     fig = go.Figure(go.Scattermapbox(
                 lat=tweets_per_airport['lat'],
                 lon=tweets_per_airport['lon'],
@@ -164,11 +166,20 @@ def plot_tweets():
     )
     return fig
 
-map_tweets = plot_tweets()
+def plot_tweets_per_destination():
+    fig = px.bar(
+        tweets_per_dest, x='destination', y='tweets')
+    return fig
+
+tweets_on_map = plot_tweets_map()
+tweets_per_dest = plot_tweets_per_destination()
 
 layout = html.Div([
-    html.H1('Travel mentions on Twitter', style={"textAlign": "center"}),
-    dcc.Graph(id='my-tweets', figure=map_tweets)
+    html.H1('Travel mentions on Twitter (per destination)', style={"textAlign": "center"}),
+    dcc.Graph(id='my-tweets', figure=tweets_on_map),
+    html.H1('Most travel destinations mentioned', style={"textAlign": "center"}),
+    dcc.Graph(id='my-tweets-bar', figure=tweets_per_dest)
+
 ])
 
 
