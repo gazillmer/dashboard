@@ -130,13 +130,14 @@ airports = pd.read_csv(AIRPORTS_LIST, encoding = CHARSET)
 
 tweets_per_dest = pd.merge(destinations, tweets_per_dest)
 tweets_per_dest.rename(columns={'id' : 'tweets'}, inplace=True)
-tweets_per_dest = tweets_per_dest.sort_values('tweets', ascending=False).nlargest(20, 'tweets')
+
 #tweets_per_airport.drop(columns=['continent', 'country', 'destination'], inplace=True)
 tweets_per_airport = tweets_per_dest.groupby('airport_iata').sum('tweets')
 tweets_per_airport.reset_index(inplace=True)
 
 tweets_per_airport = pd.merge(tweets_per_dest, airports[['airport_iata', 'lat', 'lon', 'name']])
 tweets_per_airport.sort_values('tweets', ascending=False, inplace=True)
+tweets_per_dest = tweets_per_dest.sort_values('tweets', ascending=False).nlargest(20, 'tweets')
 
 def plot_tweets_map():
     fig = go.Figure(go.Scattermapbox(
@@ -165,6 +166,7 @@ def plot_tweets_map():
         ),
         height = 600
     )
+    fig.show()
     return fig
 
 def plot_tweets_per_destination():
